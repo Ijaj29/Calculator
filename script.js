@@ -21,7 +21,6 @@ numbersEl.forEach((number) => {
     }
     dis2Num += e.target.innerText;
     display2El.innerText = dis2Num;
-    // console.log();
   });
 });
 
@@ -37,9 +36,9 @@ operationEl.forEach((operation) => {
     }
     clearVar(operationName);
     lastOperation = operationName;
-    console.log(result);
   });
 });
+
 function clearVar(name = "") {
   dis1Num += dis2Num + " " + name + " ";
   display1El.innerText = dis1Num;
@@ -61,7 +60,6 @@ function mathOperation() {
     result = parseFloat(result) % parseFloat(dis2Num);
   }
 }
-// operation();
 
 equalEl.addEventListener("click", () => {
   if (!dis2Num || !dis1Num) return;
@@ -84,13 +82,19 @@ clearAllEl.addEventListener("click", () => {
 });
 
 clearLastEl.addEventListener("click", () => {
-  display2El.innerText = "";
-  dis2Num = "";
+  if (dis2Num.length > 1 && dis2Num != "") {
+    dis2Num = dis2Num.substring(0, dis2Num.length - 1);
+    display2El.innerText = dis2Num;
+  } else {
+    dis2Num = "";
+    display2El.innerHTML = 0;
+  }
 });
 
 window.addEventListener("keydown", (e) => {
   if (
     e.key === "0" ||
+    e.key === "00" ||
     e.key === "1" ||
     e.key === "2" ||
     e.key === "3" ||
@@ -103,17 +107,15 @@ window.addEventListener("keydown", (e) => {
     e.key === "."
   ) {
     clickButtonEl(e.key);
-    // console.log(e.key)
   } else if (e.key === "+" || e.key === "-" || e.key === "/" || e.key === "%") {
     clickOperation(e.key);
   } else if (e.key === "*") {
     clickOperation("x");
-    // console.log(e.key)
   } else if (e.key == "Enter" || e.key === "=") {
     clickEqual();
   }
-  // console.log(e.key)
 });
+
 function clickButtonEl(key) {
   numbersEl.forEach((button) => {
     if (button.innerText === key) {
@@ -121,6 +123,7 @@ function clickButtonEl(key) {
     }
   });
 }
+
 function clickOperation(key) {
   operationEl.forEach((operation) => {
     if (operation.innerText === key) {
@@ -128,6 +131,7 @@ function clickOperation(key) {
     }
   });
 }
+
 function clickEqual() {
   equalEl.click();
 }
